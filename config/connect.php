@@ -1,0 +1,1 @@
+<?php $pdo = new PDO('pgsql:host=localhost;dbname=discussion', 'postgres', 'postgres');
