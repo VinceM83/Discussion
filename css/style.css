@@ -1,0 +1,10 @@
+#chat-liste-channels a {
+	font-size: 2em;
+	text-decoration: underline;
+	cursor: pointer;
+	color: #b78bca;
+}
+
+.chat-panel {
+	display: none;
+}
