@@ -4,7 +4,7 @@
 	require_once('../classes/channel.class.php');
 	require_once('../classes/message.class.php');
 
-	$bilbo = new Utilisateur(42, 'Bilbon Sacquet');
+	$bilbon = new Utilisateur(42, 'Bilbon Sacquet');
 
 	$hbt = new Channel(32, 'Le Hobbit', $bilbo);
 
