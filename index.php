@@ -38,7 +38,26 @@
 
 	<a id="chat-switch-channel">Changer de channel</a>
 </article>
+
+
+<!-- tableau listant les gens connectés -->
+
+<div class="container" style="margin-top: 3em;">
+
+	<input type="hidden" id="user_id" value="<?=$_SESSION['id'];?>">
+	<table class="table">
+		<thead class="hidden">
+			<tr>
+				<th>Nom</th>
+				<th>État</th>
+			</tr>
+		</thead>
+		<tbody id="connectes-liste"></tbody>
+	</table>
+</div>
+
 <?php
+
 	$js = ['index'];
 	require_once('parts/footer.php');
 ?>

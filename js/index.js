@@ -115,3 +115,55 @@ jQuery('.chat-panel').on('chat:show', function() {
 	});
 	if (!jQuery('.chat-panel:visible').length) jQuery(this).fadeIn(400);
 });
+
+
+/*** liste des gens connectés ***/
+
+/*** MAJ du ts dans la table utilisateur ***/
+
+let $fromstart = jQuery('#user_id');
+
+$fromstart.on('fromstart:refresh',function(){
+	let user_id = jQuery('#user_id').val();
+	console.log(user_id);
+	let ts = jQuery.now();
+	console.log(ts);
+	jQuery.post('services/editconnexionts.php', {ts:ts, id:user_id}, function(reponse) {
+		console.log(reponse);
+	});
+}).trigger('fromstart:refresh');
+
+setInterval(function(){
+	$fromstart.trigger('fromstart:refresh');
+}, 5000);
+
+/*** MAJ du tableau listant les gens connectés ***/
+
+let $liste = jQuery('#connectes-liste');
+
+$liste.on('connectes:refresh', function() {
+	jQuery.get('services/listutilisateurs.php', function(data) {
+		if (data.length > 0) {
+			$liste.siblings('thead').show();
+			$liste.html('');
+			data.forEach(function(user) {
+				let ligne = jQuery('<tr>');
+				ligne.append('<td>' + user.pseudo + '</td>');
+				if(user.connexion_ts > ($.now()-6000)){
+					ligne.append('<td><i class="fas fa-podcast fa-lg" style="color:green"></i></td>');
+				} else {
+					ligne.append('<td><i class="fas fa-microphone-slash fa-lg" style="color:red"></i></td>');
+				};
+				$liste.append(ligne);
+			});
+		} else {
+			$liste.siblings('thead').hide();
+			$liste.html('<tr><th>Pas d\'utilisateurs à afficher</th></tr>');
+		}
+	}, 'json');
+	
+}).trigger('connectes:refresh');
+
+setInterval(function(){
+	$liste.trigger('connectes:refresh');
+}, 5000);
