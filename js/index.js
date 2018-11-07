@@ -23,26 +23,11 @@ let refresh = function(channel, callback) {
 		$messages.html('');
 		msgs.forEach(function(message) {
 			message.envoi = new Date(message.envoi * 1000);
-			$messages.append('<div><dt>' + message.auteur.pseudo + '</dt><dd title="' + message.envoi.toLocaleString() + '">' + message.contenu + '</dd><input type="button" class="modifier" name="modifier" data-user='+message.id+' value="Modifier"> <input type="button" class="supprimer" name="supprimer" data-user='+message.id+' value="Supprimer"></div>');
+			$messages.append('<dt>' + message.auteur.pseudo + '</dt><dd title="' + message.envoi.toLocaleString() + '">' + message.contenu + '</dd>');
 		});
 		if (callback) callback();
 	}, 'json');
 };
-
-/*suppression d'un message*/
-$(document).on('click', '.supprimer', function(e)
-{
-	e.preventDefault();
-
-	jQuery.get('services/supp_message.php',
-		{
-			id : jQuery(this).data('user')
-		},
-		function(data)
-		{
-			jQuery(this).parent().remove()
-		}, 'html');
-});
 
 let display = function(id) {
 	jQuery.get('services/getchannel.php', {id: id}, function(chan) {

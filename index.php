@@ -38,17 +38,6 @@
 
 	<a id="chat-switch-channel">Changer de channel</a>
 </article>
-
-	<div class="window-bg">
-	    <div class="window">
-	        <p class="window-title">Modifier le message</p>
-	        <div class="window-content"></div>
-	        <div class="window-buttons">
-	            <a href="" class="button window-close">Fermer</a>
-	        </div>
-	    </div>
-	</div>
-
 <?php
 	$js = ['index'];
 	require_once('parts/footer.php');
