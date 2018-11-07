@@ -38,6 +38,50 @@
 
 	<a id="chat-switch-channel">Changer de channel</a>
 </article>
+
+
+<div class="container text-center">
+	<section id="chat-list-connectes">
+		<h2>envoyer un message privé à </h2>
+
+	</section>
+
+  <!-- Modal -->
+		<div class="modal fade" id="myModal" role="dialog">
+    		<div class="modal-dialog">
+    
+      <!-- Modal content-->
+      	<div class="modal-content">
+        	<div id="cible" class="modal-header">
+	        	
+	         	<button type="button" class="close" data-dismiss="modal">Fermer &times;</button>
+          
+        	</div>
+		<div id="response"></div>
+        <div class="modal-body">
+          <form id="private" action="#" method="POST" class="text-center">
+
+          	<textarea name="" id="private-contenu" cols="30" rows="2"></textarea>
+    
+
+
+
+		</form>
+
+        </div>
+	        <div class="modal-footer">
+	        	<button type="button" id="privateEnv" class="btn btn-info envoyer" data-dismiss="modal">Envoyer</button>
+	          
+	        </div>
+	    </div>
+	      
+		</div>
+		</div>
+	  
+</div>
+
+
+
 <?php
 	$js = ['index'];
 	require_once('parts/footer.php');

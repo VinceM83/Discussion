@@ -5,7 +5,7 @@
 		exit;
 	}
 
-	if (isset($_POST['pseudo'])) {
+	if (isset($_POST['pseudo'])&& isset($_POST['pseudo'])) {
 		$format = ['pseudo' => '', 'mdp' => ''];
 		$p = array_intersect_key($_POST, $format);
 
@@ -20,8 +20,15 @@
 			$_SESSION = $stmt->fetch(PDO::FETCH_ASSOC);
 			header('Location: index.php');
 			exit;
-		} else {
-			$err = true;
+		} 
+			else{
+		$format = ['pseudo' => '', 'mdp' => ''];
+		$p = array_intersect_key($_POST, $format);
+		$stmt = $pdo->prepare("INSERT INTO utilisateur (pseudo, mdp) VALUES (:pseudo, :mdp)");
+		$stmt->execute($p);
+		echo 'vous êtes inscrits, merci de vous connecter';
+	
+	
 		}
 	}
 
