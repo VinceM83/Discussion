@@ -26,4 +26,11 @@ class Utilisateur {
 	public function getPassword() {
 		return $this->password;
 	}
+
+	public function toJSON() {
+		return [
+			"id" => $this->getId(),
+			"nom" => $this->getPseudo(),
+		];
+	}
 }

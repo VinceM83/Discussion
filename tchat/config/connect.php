@@ -1,1 +1,1 @@
-<?php $pdo = new PDO('mysql:host=localhost;dbname=channel', 'root', '');
+<?php $pdo = new PDO('mysql:host=localhost;dbname=discussion', 'root', '');

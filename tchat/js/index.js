@@ -2,6 +2,10 @@
 
 let $channels = jQuery('#chat-liste-channels');
 let $messages = jQuery('#chat-liste-messages');
+let $connectes = jQuery('#chat-list-connectes');
+let $reponse = jQuery('#response'); 
+
+let $texte = jQuery('#cible');
 
 let idchannel; // le channel en cours, quand il y en a un
 let interval; // l'interval de rafraîchissement
@@ -64,6 +68,19 @@ $.ajax({
 
 	jQuery('#chat-selection-channel').trigger('chat:show');
 
+	$.ajax({
+    type: "GET",
+    url: "services/listusers.php",
+    dataType: "json"
+}).done(function (users) {
+
+	users.forEach(function(user) {
+		$connectes.append('<li><button  type="button" class="btn btn-info target" data-toggle="modal" data-target="#myModal" data-id="' + user.id + '" data-user="' + user.nom + '"  >' + user.nom + '</button></li>');
+	});
+}).fail(function (jqXHR, textStatus, errorThrown) {
+    alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+});
+jQuery('#chat-list-connectes').trigger('chat:show');
 // }, 'json');
 
 /*** panel de sélection de channel ***/
@@ -71,6 +88,39 @@ $.ajax({
 $channels.on('click', 'a', function() {
 	display(jQuery(this).data('id'));
 });
+
+$(document).on('click','.target', function() {
+	
+	$texte.html('<h2>message à '+jQuery($(this)).data('user')+'</h2>');
+	// ICI
+	var id = jQuery(this).data('id');
+
+
+
+$.ajax({
+    type: "GET",
+    url: "services/listmessagesprive.php",
+    data: {id: id},
+    dataType: "json"
+}).done(function (pvm) {
+	console.log(pvm)
+	pvm.forEach(function(messPriv) {
+		if(messPriv.idenvoie==id){
+			$reponse.append('<li> votre ami(e) dit : '+ messPriv.contenu + '</li>');
+		}else{
+			$reponse.append('<li> vous : '+ messPriv.contenu + '</li>');
+		}
+		
+	})
+}).fail(function (jqXHR, textStatus, errorThrown) {
+    alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+});
+
+
+
+		$('#private').append('<input type="number" name="id" id="recevoir" hidden="hidden" data-id="'+$(this).data('id')+'" >');
+	});
+
 
 jQuery("#chat-creation-channel").on('submit', function() {
 	jQuery.post('services/addchannel.php', jQuery(this).serialize(), function(reponse) {
@@ -101,6 +151,43 @@ jQuery('#chat-envoi-message').on('submit', function() {
 	})
 	return false;
 });
+
+
+//ICI
+$('#myModal').on('hidden.bs.modal', function () {
+jQuery(document).find('#recevoir').remove();
+jQuery(document).find('#response').empty();
+})
+
+
+$(document).on('click', '#privateEnv', function(e) {  
+  
+	if (jQuery(this).find('#private-contenu').val() == '') {
+		alert("Merci d'écrire le message à poster");
+		return false;
+	}
+	var $contenu = jQuery('#private-contenu').val();
+	var $recois = jQuery(document).find('#recevoir').data('id'); 
+	var $envoie = [$contenu, $recois];
+	//alert($envoie);
+//	alert($contenu);
+	jQuery.post('services/messageprive.php', {contenu: $contenu, recois: $recois}, (reponse) => {
+		if (reponse = 1) {
+			alert('message envoyé');
+		
+			jQuery(document).find('#private-contenu').val('');
+			jQuery(document).find('#recevoir').remove();
+		} else {
+			alert('Normalement ça à pas marché');
+			jQuery(document).find('#private-contenu').val('');
+				jQuery(document).find('#recevoir').remove();
+
+			refresh(idchannel);
+		}
+	})
+	return false;
+});
+
 
 jQuery('a#chat-switch-channel').on('click', function() {
 	clearInterval(interval);
