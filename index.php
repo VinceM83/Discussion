@@ -7,7 +7,7 @@
 
 	require_once('parts/header.php');
 ?>
-<h1>Bienvenue sur le salon de discussion sans nom, <?=$_SESSION['pseudo'];?></h1>
+<h1>Bie    nvenue sur le salon de discussion sans nom, <?=$_SESSION['pseudo'];?></h1>
 
 <article class="chat-panel" id="chat-selection-channel">
 	<h2>Choisis un channel</h2>
